@@ -1,4 +1,4 @@
-
+// @ts-ignore
 import { TabsNav, TabsPanel, useTabsNav } from '@xmzhou/rc-tabs';
 import React, { useRef } from 'react';
 import { useSetState } from 'ahooks';
@@ -48,7 +48,7 @@ export default () => {
     tabKey: '1',
   });
   const panelRef = useRef<any>(null);
-  const nacFunc = useTabsNav(state.tabKey, state.tabList, (key, list) => setState({ tabKey: key, tabList: list }), panelRef.current);
+  const nacFunc = useTabsNav(state.tabKey, state.tabList, (key: any, list: any) => setState({ tabKey: key, tabList: list }), panelRef.current);
   return (
     <div style={{
       display: 'flex',
@@ -58,7 +58,7 @@ export default () => {
       <TabsNav
         tabKey={state.tabKey}
         tabList={state.tabList}
-        onChange={(tabKey, tabList) => {
+        onChange={(tabKey: any, tabList: any) => {
           setState({ tabKey, tabList });
         }}
         panel={panelRef.current}
@@ -66,8 +66,8 @@ export default () => {
       <TabsPanel
         ref={panelRef}
       >
-        {(tabKey, data, handleUpdate) => {
-          const tab = state.tabList.find(t => t.key === tabKey);
+        {(tabKey: any, data: any, handleUpdate: any) => {
+          const tab = state.tabList.find((t: any) => t.key === tabKey);
           return <div style={{ height: '100%' }}  suppressContentEditableWarning contentEditable >{tab?.label}</div>;
         }} 
       </TabsPanel>

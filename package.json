@@ -1,6 +1,6 @@
 {
   "name": "@xmzhou/rc-tabs",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "一个基于React的标签页管理工具",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
