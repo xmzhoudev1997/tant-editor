@@ -1,13 +1,17 @@
 import React, { useImperativeHandle } from "react";
 import { useSetState } from "ahooks";
 import { XM_TABS_PANEL, XM_TABS_PANEL_REF } from './props'
-import { XM_TAB } from "../tabs-nav-base/props";
+import { XM_TAB } from "../tabs-nav/props";
 
 export default ({
   cacheNum = 5, fixedCacheNum = 10, onChange = () => {}, onInit = () => null,
 }: Omit<XM_TABS_PANEL, 'ref'>, ref: React.ForwardedRef<XM_TABS_PANEL_REF>) => {
   const [state, setState] = useSetState<{
-    list: XM_TABS_PANEL_REF['list'],
+    list: {
+      tabKey: XM_TAB['key'],
+      data: any,
+      fixed?: boolean,
+    }[],
     tabKey: XM_TAB['key'],
   }>({
     list: [],
@@ -19,7 +23,6 @@ export default ({
       const obj = {
         tabKey: tabKey,
         data: null,
-        hide: false,
       };
       state.list.push(obj);
 

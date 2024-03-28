@@ -1,29 +1,5 @@
----
-hero:
-  title: XM-TABS
-  description: 一个基于React的标签页管理工具
-  actions:
-    - text: 入门
-      link: /
-    - text: 文档
-      link: /
-features:
-  # - title: Hello
-  #   emoji: 💎
-  #   description: Put hello description here
-  # - title: World
-  #   emoji: 🌈
-  #   description: Put world description here
-  # - title: '!'
-  #   emoji: 🚀
-  #   description: Put ! description here
-  # - title: Hello
-  #   emoji: 💎
-  #   description: Put hello description here
-  # - title: World
-  #   emoji: 🌈
-  #   description: Put world description here
-  # - title: '!'
-  #   emoji: 🚀
-  #   description: Put ! description here
----
+<!-- <code src="@/demo/base.tsx"></code> -->
+<code src="@/demo/semi/test.tsx"></code>
+* 本组件不包含任何第三方UI组件。
+* 标签的样式、关闭按钮等都需要借助自定义函数实现，但是本组件在ref参数中提供各种标签页的操作方法。
+* 本组件仅作为已提供的上层组件无法满足业务场景的需求下的自定义开发

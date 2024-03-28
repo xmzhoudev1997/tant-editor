@@ -1,11 +1,11 @@
-import React, { forwardRef } from "react";
-import { XM_TAB, XM_TABS_NAV, XM_TABS_NAV_REF } from "./props";
+import React, { FC } from "react";
+import { XM_TAB, XM_TABS_NAV } from "./props";
 import './index.less';
 import classnames from 'classnames';
 import useData from './hook';
 import { DragDropContext, Droppable, Draggable, DraggableProvided } from 'react-beautiful-dnd';
 
-const Index = forwardRef<XM_TABS_NAV_REF, Omit<XM_TABS_NAV, 'ref'>>((props, ref) => {
+const Index: FC<XM_TABS_NAV> = (props) => {
   const {
     className,
     tabClassName,
@@ -15,9 +15,7 @@ const Index = forwardRef<XM_TABS_NAV_REF, Omit<XM_TABS_NAV, 'ref'>>((props, ref)
     tabRender,
     addRender,
     tabContextMenuRender,
-    tabFixedRender,
-    tabCloseRender,
-    tabEditRender,
+    tabOperRender,
     moreRender,
     extraRender,
     onChange = () => { },
@@ -25,18 +23,15 @@ const Index = forwardRef<XM_TABS_NAV_REF, Omit<XM_TABS_NAV, 'ref'>>((props, ref)
     tabTipRender,
   } = props;
   const {
-    tabWidth, showTabList, tabNavRef, tabOperRef, handleDragEnd,
-  } = useData(props, ref);
-
+    tabWidth, tabNavRef, tabOperRef, handleDragEnd, isLeft, isRight,
+  } = useData(props);
   const addNode = addRender ? addRender() : null;
   const moreNode = moreRender ? moreRender() : null;
   const extraNode = extraRender ? extraRender() : null;
 
-  const tabNodeRender = (tab: XM_TAB, dragging: boolean, provided?: DraggableProvided) => {
-    const fixedNode = tabFixedRender ? tabFixedRender(tab) : null;
-    const closeNode = tabCloseRender ? tabCloseRender(tab) : null;
+  const tabNodeRender = (tab: XM_TAB, dragging: boolean, provided: DraggableProvided) => {
+    const operNode = tabOperRender ? tabOperRender(tab) : null;
     const iconNode = tabIconRender ? tabIconRender(tab) : null;
-    const editNode = tabEditRender ? tabEditRender(tab) : null;
     const tabNode =
       <div
         className={classnames(
@@ -48,7 +43,7 @@ const Index = forwardRef<XM_TABS_NAV_REF, Omit<XM_TABS_NAV, 'ref'>>((props, ref)
         ref={provided?.innerRef}
         {...(provided?.dragHandleProps || {})}
         {...(provided?.draggableProps || {})}
-        style={{ width: tabWidth, ...(provided?.draggableProps?.style || {}) }}
+        style={{ ...(provided?.draggableProps?.style || {}), width: tabWidth }}
         onClick={() => tabKey === tab.key ? null : onChange(tab.key, tabList)}
       >
         {
@@ -60,22 +55,17 @@ const Index = forwardRef<XM_TABS_NAV_REF, Omit<XM_TABS_NAV, 'ref'>>((props, ref)
           {tabRender ? tabRender(tab) : tab.label}
         </div>
         {
-
+          !!operNode && <div className="xm-tab-oper" >
+            <div className={tabKey === tab.key ? 'xm-tab-oper-shadow-active' : 'xm-tab-oper-shadow'} />
+            <div className={tabKey === tab.key ? 'xm-tab-oper-bg-active' : 'xm-tab-oper-bg'}>
+              <div onClick={e => e.stopPropagation()}>{operNode}</div>
+            </div>
+            <div className={tabKey === tab.key ? 'xm-tab-padding-active' : 'xm-tab-padding'} />
+          </div>
         }
-        <div className="xm-tab-oper" onClick={e => e.stopPropagation()}>
-          {
-            tab.fixed ? fixedNode :
-              <div className="xm-tab-other" >
-                {editNode}
-                {tab.closeable ? closeNode : null}
-              </div>
-          }
-          {!!tab.edited && <div className="xm-tab-dot" />}
-          <div className={classnames('xm-tab-other', tab.edited ? 'xm-tab-other-show' : '')}>{tab.fixed ? fixedNode : tab.closeable ? closeNode : null}</div>
-        </div>
-      </div>;
-    const node = tabContextMenuRender ? tabContextMenuRender(tab, tabNode) : tabNode;
-    return tabTipRender ? tabTipRender(tab, node) : node;
+      </div >;
+    const node = tabTipRender ? tabTipRender(tab, tabNode) : tabNode;
+    return tabContextMenuRender ? tabContextMenuRender(tab, node) : node;
   }
 
   return (
@@ -87,27 +77,38 @@ const Index = forwardRef<XM_TABS_NAV_REF, Omit<XM_TABS_NAV, 'ref'>>((props, ref)
           droppableId="nav"
           direction="horizontal"
           isDropDisabled={dragDisabled}
-          renderClone={(provided, snapshot, descriptor) => {
-            const index = descriptor?.source?.index;
-            const tab = tabList[index];
-            if (!tab) {
-              return null;
-            }
-            return tabNodeRender(tab, true, provided) as any
-          }}>
+        renderClone={(provided, snapshot, descriptor) => {
+          const index = descriptor?.source?.index;
+          const tab = tabList[index];
+          if (!tab) {
+            return null;
+          }
+          if (provided.draggableProps.style?.transform) {
+            provided.draggableProps.style.transform = provided.draggableProps.style?.transform.replace(/, [\-0-9]+px/, ', 0px');
+          }
+          return tabNodeRender(tab, true, provided) as any
+        }}
+        >
           {
             (dropProvided) => {
-              return <div className="xm-tabs-bar" ref={(r) => {
-                (tabNavRef as any).current = r;
-                dropProvided.innerRef(r);
-              }}
-                {...dropProvided.droppableProps}>
-                <div className="xm-tabs-container">
+              return <div className="xm-tabs-bar"
+                ref={(r) => {
+                  (tabNavRef as any).current = r;
+                  dropProvided.innerRef(r);
+                }}
+                {...dropProvided.droppableProps}
+              >
+                {
+                  !isLeft && <div className="xm-tabs-scroll-left" />
+                }
+                <div className="xm-tabs-scroll" tabIndex={1}>
                   {
-                    showTabList?.map((tab, index) => {
+                    tabList?.map((tab, index) => {
                       return <Draggable draggableId={tab.key} index={index} key={tab.key} isDragDisabled={dragDisabled}>
                         {
-                          (provided) => tabNodeRender(tab, false, provided) as any
+                          (provided, snapshot) => {
+                            return tabNodeRender(tab, snapshot.isDragging, provided) as any
+                          }
                         }
                       </Draggable>
                     })
@@ -117,6 +118,9 @@ const Index = forwardRef<XM_TABS_NAV_REF, Omit<XM_TABS_NAV, 'ref'>>((props, ref)
                   }
                 </div>
                 <div className="xm-tabs-oper" ref={tabOperRef}>
+                  {
+                    !isRight && <div className="xm-tabs-scroll-right" />
+                  }
                   {
                     !!addNode &&
                     <div className="xm-tabs-add">
@@ -145,6 +149,6 @@ const Index = forwardRef<XM_TABS_NAV_REF, Omit<XM_TABS_NAV, 'ref'>>((props, ref)
       </DragDropContext>
     </div>
   );
-});
+};
 
 export default Index;

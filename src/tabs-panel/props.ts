@@ -1,13 +1,7 @@
 import { ReactNode } from "react";
-import { XM_TAB } from "../tabs-nav-base/props";
+import { XM_TAB } from "../tabs-nav/props";
 
 export interface XM_TABS_PANEL_REF {
-  list: {
-    tabKey: XM_TAB['key'],
-    data: any,
-    fixed?: boolean,
-  }[];
-  tabKey: XM_TAB['key'],
   update: (tabKey: XM_TAB['key'], data: any) => void;
   open: (tabKey: XM_TAB['key'], tab?: XM_TAB) => void;
   close: (tabKey: XM_TAB['key']) => void;

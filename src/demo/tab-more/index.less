@@ -1,0 +1,42 @@
+.xm-tab-semi-close {
+    display: flex;
+    border-radius: 2px;
+    padding: 2px;
+    color: #7E7F80;
+
+    &:hover {
+        background-color: #B9BECF33;
+    }
+}
+
+.xm-tab-semi-fixed,
+.xm-tab-semi-fixed-unsave,
+.xm-tab-semi-unsave {
+    display: flex;
+    border-radius: 2px;
+    padding: 2px;
+    color: #1E76F0;
+
+    &:hover {
+        background-color: #B9BECF33;
+    }
+}
+
+.xm-tab-semi-unsave-hover {
+    .xm-tab-semi-close {
+        display: none;
+    }
+    &:hover {
+        .xm-tab-semi-close {
+            display: flex;
+        }
+        .xm-tab-semi-unsave {
+            display: none;
+        }
+    }
+}
+.xm-tab-semi-tooltip {
+    max-width: 300px;
+    min-width: 150px;
+    word-break: break-all;
+}

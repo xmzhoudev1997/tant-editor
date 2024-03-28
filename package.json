@@ -1,5 +1,5 @@
 {
-  "name": "xm-tabs",
+  "name": "@xmzhou/rc-tabs",
   "version": "0.0.1",
   "description": "一个基于React的标签页管理工具",
   "module": "dist/index.js",
@@ -54,6 +54,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@svgr/webpack": "^8.1.0",
     "@types/lodash": "^4.17.0",
     "@types/react": "^18.0.0",
     "@types/react-beautiful-dnd": "^13.1.8",
@@ -72,11 +73,12 @@
     "stylelint": "^14.9.1"
   },
   "dependencies": {
-    "@tant/icons": "^1.5.27",
-    "@tant/ui-next": "^2.60.10",
+    "@ant-design/icons": "^5.3.5",
+    "@douyinfe/semi-icons": "^2.55.1",
+    "@douyinfe/semi-ui": "^2.55.1",
+    "@tant/icons": "^1.6.0",
     "ahooks": "^3.7.10",
     "classnames": "^2.5.1",
-    "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "react-beautiful-dnd": "^13.1.1"
   }

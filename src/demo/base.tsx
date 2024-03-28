@@ -1,9 +1,7 @@
 
-import { TabsNavBase, TabsPanelBase } from 'xm-tabs';
+import { TabsNav, TabsPanel, useTabsNav } from '@xmzhou/rc-tabs';
 import React, { useRef } from 'react';
 import { useSetState } from 'ahooks';
-import { XM_TABS_PANEL_REF } from '../tabs-panel-base/props';
-
 export default () => {
   const [state, setState] = useSetState<any>({
     tabList: [{
@@ -49,14 +47,15 @@ export default () => {
     },],
     tabKey: '1',
   });
-  const panelRef = useRef<XM_TABS_PANEL_REF>(null);
+  const panelRef = useRef<any>(null);
+  const nacFunc = useTabsNav(state.tabKey, state.tabList, (key, list) => setState({ tabKey: key, tabList: list }), panelRef.current);
   return (
     <div style={{
       display: 'flex',
       height: 400,
       flexDirection: 'column',
     }}>
-      <TabsNavBase
+      <TabsNav
         tabKey={state.tabKey}
         tabList={state.tabList}
         onChange={(tabKey, tabList) => {
@@ -64,14 +63,14 @@ export default () => {
         }}
         panel={panelRef.current}
       />
-      <TabsPanelBase
+      <TabsPanel
         ref={panelRef}
       >
         {(tabKey, data, handleUpdate) => {
           const tab = state.tabList.find(t => t.key === tabKey);
           return <div style={{ height: '100%' }}  suppressContentEditableWarning contentEditable >{tab?.label}</div>;
         }} 
-      </TabsPanelBase>
+      </TabsPanel>
     </div>
   );
 }

@@ -1,12 +1,8 @@
 import { defineConfig } from 'dumi';
 
 export default defineConfig({
-  outputPath: 'docs-dist',
+  outputPath: 'dist',
   themeConfig: {
-    name: 'xm-tabs',
-  },
-  apiParser: {},
-  resolve: {
-    entryFile: './src/index.ts',
+    name: 'rc-tabs',
   },
 });
