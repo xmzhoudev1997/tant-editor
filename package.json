@@ -1,6 +1,6 @@
 {
   "name": "@xmzhou/rc-tabs",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "一个基于React的标签页管理工具",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,6 +26,11 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "homepage": "https://xmzhoudev1997.github.io/rc-tabs/docs-dist/index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xmzhoudev1997/rc-tabs"
   },
   "lint-staged": {
     "*.{md,json}": [
