@@ -5,7 +5,7 @@ export default defineConfig({
   themeConfig: {
     name: 'rc-tabs',
   },
-  publicPath: process.env.NODE_ENV === 'development' ? '/' : '/XM-MONACO-EDITOR-DEMO/dist/',
+  publicPath: process.env.NODE_ENV === 'development' ? '/' : '/rc-tabs/docs-dist/',
   hash: true,
   history: {type: 'hash',},
 });
