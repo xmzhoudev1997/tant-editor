@@ -1,11 +1,12 @@
 import { useScroll, useSize } from "ahooks";
 import { XM_TABS_NAV } from './props'
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
 
 export default ({
   tabKey, tabList, maxTabWidth = 216, minTabWidth = 76, onChange = () => { },
 }: XM_TABS_NAV) => {
+  const [isRight, setIsRight] = useState(true);
   const tabNavRef = useRef<HTMLDivElement>(null);
   const tabOperRef = useRef<HTMLDivElement>(null);
   const tabNavSize = useSize(tabNavRef);
@@ -51,14 +52,22 @@ export default ({
       return;
     };
     const index = tabList.findIndex(t => t.key === tabKey);
-    (scrollDom.children[index] as any).scrollIntoViewIfNeeded();
+    if (scrollDom.children[index]) {
+      (scrollDom.children[index] as any).scrollIntoViewIfNeeded();
+    }
   }, [tabKey]);
+  useEffect(() => {
+    const left = tabScrollPosition?.left || 0;
+    const offsetWidth = scrollDom?.offsetWidth || 0;
+    const scrollWidth = scrollDom?.scrollWidth || 0 - 1;
+    setIsRight(scrollWidth <= offsetWidth || left + offsetWidth >= scrollWidth)
+  }, [tabScrollPosition, scrollDom?.offsetWidth, scrollDom?.scrollWidth]);
   return {
     tabWidth,
     tabNavRef,
     tabOperRef,
     handleDragEnd,
     isLeft: !tabScrollPosition?.left,
-    isRight: (tabScrollPosition?.left || 0) + (scrollDom?.offsetWidth || 0) >= (scrollDom?.scrollWidth || 0) - 1
+    isRight,
   }
 }

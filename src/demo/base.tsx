@@ -62,6 +62,7 @@ export default () => {
           setState({ tabKey, tabList });
         }}
         panel={panelRef.current}
+        addRender={() => 1234}
       />
       <TabsPanel
         ref={panelRef}
