@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-nocheck
 import { TabsNav, TabsPanel, useTabsNav } from '@xmzhou/rc-tabs';
 import React, { useRef } from 'react';
 import { useSetState } from 'ahooks';
