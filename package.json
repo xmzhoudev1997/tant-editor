@@ -1,6 +1,6 @@
 {
   "name": "@xmzhou/rc-tabs",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "一个基于React的标签页管理工具",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -78,10 +78,6 @@
     "stylelint": "^14.9.1"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.3.5",
-    "@douyinfe/semi-icons": "^2.55.1",
-    "@douyinfe/semi-ui": "^2.55.1",
-    "@tant/icons": "^1.6.0",
     "ahooks": "^3.7.10",
     "classnames": "^2.5.1",
     "lodash": "^4.17.21",
