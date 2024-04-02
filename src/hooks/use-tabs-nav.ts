@@ -18,10 +18,12 @@ export default (
     activeKey: string,
     list: XM_TAB[],
     onChange: (activeKey: string, list: XM_TAB[]) => void | Promise<void> = () => { },
-    panelFunc: XM_TABS_PANEL_REF = {
-        open: () => { },
-        close: () => { },
-        update: () => { },
+    panelFunc: React.MutableRefObject<XM_TABS_PANEL_REF> = {
+        current: {
+            open: () => { },
+            close: () => { },
+            update: () => { },
+        }
     },
 ): USE_TABS_NAV => {
     const dataRef = useRef({
@@ -79,7 +81,7 @@ export default (
             }
         }
         onChange(newKey, [...dataRef.current.list]);
-        panelFunc?.close(tab.key);
+        panelFunc?.current?.close(tab.key);
         return true;
     }
     const handleCloseAll = async (check: (tab: XM_TAB) => Promise<boolean> | boolean = () => true) => {
@@ -136,12 +138,12 @@ export default (
     const handleFixed = async (tabKey: XM_TAB['key'], fixed: boolean) => {
         handleUpdate(tabKey, { fixed });
         const tab = dataRef.current.list.find(t => t.key === tabKey);
-        panelFunc?.open(dataRef.current.activeKey, tab);
+        panelFunc?.current?.open(dataRef.current.activeKey, tab);
     }
     const handleEdited = async (tabKey: XM_TAB['key'], edited: boolean) => {
         handleUpdate(tabKey, { edited });
         const tab = dataRef.current.list.find(t => t.key === tabKey);
-        panelFunc?.open(dataRef.current.activeKey, tab);
+        panelFunc?.current?.open(dataRef.current.activeKey, tab);
     }
     const handleFixedTabSort = (list: XM_TAB[]) => {
         const fixedList = list.filter(d => d.fixed);
@@ -161,7 +163,7 @@ export default (
     }, [list]);
     useEffect(() => {
         const tab = dataRef.current.list.find(t => t.key === activeKey);
-        panelFunc?.open(activeKey, tab);
+        panelFunc?.current?.open(activeKey, tab);
     }, [activeKey, panelFunc]);
     return {
         update: handleUpdate,

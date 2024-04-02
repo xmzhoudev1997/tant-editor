@@ -48,7 +48,7 @@ export default () => {
     tabKey: '1',
   });
   const panelRef = useRef<any>(null);
-  const nacFunc = useTabsNav(state.tabKey, state.tabList, (key: any, list: any) => setState({ tabKey: key, tabList: list }), panelRef.current);
+  useTabsNav(state.tabKey, state.tabList, (key: any, list: any) => setState({ tabKey: key, tabList: list }), panelRef);
   return (
     <div style={{
       display: 'flex',
