@@ -106,6 +106,7 @@ export default ({
       fontSize: 14,
       lineNumbersMinChars: 3,
       contextmenu: false,
+      cursorBlinking: 'solid',
       ...initOptions,
       theme: initOptions.theme || 'tant-light',
     },
