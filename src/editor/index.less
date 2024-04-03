@@ -1,0 +1,15 @@
+.tant-editor-container {
+    padding: 16px 0 0 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border: 1px solid var(--tant-border-color-border1-1);
+    .margin-view-overlays>div:has(div.active-line-number) {
+        background-color: #f1f2f5;
+    }
+    .monaco-editor .cursor {
+        background-color: var(--tant-primary-color-primary-default) !important;
+        width: 2px !important;
+        transform: translateY(3px);
+        height: 15px !important;
+    }
+}

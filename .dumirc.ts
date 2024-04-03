@@ -1,11 +1,12 @@
 import { defineConfig } from 'dumi';
 
 export default defineConfig({
-  outputPath: 'rc-tabs',
+  outputPath: '',
   themeConfig: {
-    name: 'rc-tabs',
+    name: 'tant-editor',
   },
-  publicPath: process.env.NODE_ENV === 'development' ? '/' : '/rc-tabs/rc-tabs/',
+  publicPath: process.env.NODE_ENV === 'development' ? '/' : '/tant-editor/dist/',
   hash: true,
   history: {type: 'hash',},
+  styles: ['https://td-fe.github.io/figma-tokens/variables.css'],
 });

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_xmzhou_rc_tabs=self.webpackChunk_xmzhou_rc_tabs||[]).push([[9],{67461:function(v,n,e){e.r(n),e.d(n,{default:function(){return u}});var a=e(24906),o=e(50959),r=function(){var m=(0,a.UO)(),s=m.id,d=(0,a.WF)(),c=d.demos,f=c[s]||{},t=f.component;return t&&(0,o.createElement)(t)},u=r}}]);
