@@ -1,0 +1,67 @@
+.tant-light {
+    .mtk28 {
+        color: #c0a9ff !important;
+    }
+}
+
+.sql-editor {
+    .suggest-widget {
+        width: 360px !important;
+        max-width: 360px !important;
+        border-radius: 4px;
+    }
+
+    .monaco-list-row {
+        padding: 1px 10px;
+        background-color: var(--tant-bg-white-color-bg1-1);
+        &:hover {
+            background-color: var(--tant-secondary-color-secondary-transp-hover) !important;
+        }
+    }
+
+    .monaco-list-row.focused {
+        background-color: var(--tant-primary-color-primary-default) !important;
+        &:hover {
+            background-color: var(--tant-primary-color-primary-default) !important;
+        }
+
+        .left {
+            color: var(--tant-white-white-80);
+        }
+
+        .right {
+            color: var(--tant-white-white-70);
+        }
+
+        .highlight {
+            color: var(--tant-data-v-multiple1-color-data-multiple1-4) !important;
+        }
+
+        .suggest-icon::before {
+            color: var(--tant-white-white-80);
+        }
+    }
+
+    .left {
+        color: var(--tant-text-gray-color-text1-2);
+        font-family: "Source Code Pro";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+    }
+
+    .right {
+        margin-left: 4px;
+        color: var(--tant-text-gray-color-text1-3);
+        font: var(--tant-body-font-body-regular);
+    }
+
+    .highlight {
+        color: var(--tant-primary-color-primary-default) !important;
+    }
+
+    .suggest-icon::before {
+        color: var(--tant-text-gray-color-text1-3);
+        font-size: 14px;
+    }
+}

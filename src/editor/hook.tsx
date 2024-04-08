@@ -11,34 +11,42 @@ document.addEventListener('onEditorRegistered', () => {
   ThemeVitesseLight.colors["editor.background"] = '#F9F9FB';
   ThemeVitesseLight.colors["editorLineNumber.foreground"] = '#d0d7d9';
   ThemeVitesseLight.colors["editor.lineHighlightBackground"] = '#f1f2f5';
+  ThemeVitesseLight.colors["editor.inactiveSelectionBackground"] = '#B9BECF4D';
+
+  ThemeVitesseLight.rules.unshift({
+    token: 'tant-variable',
+    foreground: '#915AFF',
+  });
+  ThemeVitesseLight.rules.unshift({
+    token: 'tant-variable-bracket',
+    foreground: '#C0A9FF',
+  });
+  
   monaco.editor.defineTheme('tant-light', ThemeVitesseLight as any);
 });
 
 
 export default ({
   initOptions = {}, contextMenu, onContextMenuChange = () => { },
-  onInit,
+  onInit, disabled, onChange = () => {}
 }: TANT_EDITOR, ref: React.ForwardedRef<TANT_EDITOR_REF>) => {
   const [contextMenuOpen, setContextMenuOpen] = useState(false);
-  const editorRef = useRef<RC_EDITOR>(null);
+  const [editor, setEditor] = useState<RC_EDITOR>();
   const handleTabSize = () => {
-    const editor = editorRef.current;
-    if (!editor) {
-      return;
-    }
-    editor.focus();
-    editor.trigger('', 'editor.action.gotoLine', () => { })
-  }
-  const handlePosition = () => {
-    const editor = editorRef.current;
     if (!editor) {
       return;
     }
     editor.focus();
     editor.trigger('', 'editor.action.changeTabDisplaySize', () => { })
   }
+  const handlePosition = () => {
+    if (!editor) {
+      return;
+    }
+    editor.focus();
+    editor.trigger('', 'editor.action.gotoLine', () => { })
+  }
   const handleContextMenuChange = (d: TANT_CONTEXT_MENU_ITEM) => {
-    const editor = editorRef.current;
     if (!editor) {
       return;
     }
@@ -74,41 +82,46 @@ export default ({
     editor.onDidScrollChange(() => {
       setContextMenuOpen(false);
     })
+    editor.onDidChangeModelContent(() => onChange(editor.getValue()));
+    setEditor(editor);
   }
   useImperativeHandle(ref, () => {
     return {
-      editor: editorRef.current,
+      editor,
       changeTabSize: handleTabSize,
       changePosition: handlePosition,
     } as any
-  }, []);
+  }, [editor]);
   useEffect(() => {
-    const editor = editorRef.current;
     if (!editor) {
       return;
     }
     handleInit(editor);
   }, [contextMenu])
 
-
+  const defaultOptions = {
+    minimap: {
+      enabled: false,
+    },
+    lineHeight: 21,
+    fontSize: 14,
+    lineNumbersMinChars: 3,
+    contextmenu: false,
+    suggestLineHeight: 24,
+    ...initOptions,
+    theme: initOptions.theme || 'tant-light',
+  };
+  if (disabled) {
+    defaultOptions.readOnly = true;
+    defaultOptions.cursorStyle = undefined;
+    defaultOptions.renderValidationDecorations = 'on';
+  }
 
   return {
-    editorRef,
     handleInit,
     handleContextMenuChange,
     contextMenuOpen,
     setContextMenuOpen,
-    defaultOptions: {
-      minimap: {
-        enabled: false,
-      },
-      lineHeight: 21,
-      fontSize: 14,
-      lineNumbersMinChars: 3,
-      contextmenu: false,
-      cursorBlinking: 'solid',
-      ...initOptions,
-      theme: initOptions.theme || 'tant-light',
-    },
+    defaultOptions,
   }
 }

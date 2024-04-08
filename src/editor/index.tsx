@@ -8,10 +8,10 @@ import { RCContextMenu } from '@xmzhou/rc-contextmenu';
 
 const Index = forwardRef<TANT_EDITOR_REF, TANT_EDITOR>((props, ref) => {
   const {
-    className, contextMenu, ...extProps
+    className, contextMenu, initOptions, ...extProps
   } = props;
   const {
-    editorRef, defaultOptions, handleInit, handleContextMenuChange,
+    defaultOptions, handleInit, handleContextMenuChange,
     contextMenuOpen, setContextMenuOpen,
   } = useData(props, ref);
 
@@ -22,11 +22,10 @@ const Index = forwardRef<TANT_EDITOR_REF, TANT_EDITOR>((props, ref) => {
       visible={contextMenuOpen}
       onVisibleChange={setContextMenuOpen}
     >
-      <div className="tant-editor-container">
+      <div className={classnames('tant-editor-container', initOptions?.theme || 'tant-light')}>
         <RCEditor
-          {...extProps}
-          initOptions={defaultOptions}
-          ref={editorRef}
+          {...extProps as any}
+          initOptions={defaultOptions as any}
           className={classnames('tant-editor', className)}
           onInit={handleInit}
         />

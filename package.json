@@ -75,17 +75,20 @@
     "prettier-plugin-packagejson": "^2.2.18",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "stylelint": "^14.9.1"
+    "stylelint": "^14.9.1",
+    "tant-intl": "^0.3.6"
   },
   "dependencies": {
     "@tant/icons": "^1.6.0",
     "@tant/ui-next": "^2.60.16",
-    "@xmzhou/rc-contextmenu": "^0.1.4",
-    "@xmzhou/rc-editor": "^0.2.1",
+    "@xmzhou/rc-contextmenu": "^0.1.5",
+    "@xmzhou/rc-editor": "^0.2.3",
     "ahooks": "^3.7.10",
     "classnames": "^2.5.1",
     "keycode": "^2.2.1",
     "lodash": "^4.17.21",
+    "lossless-json": "^4.0.1",
+    "sql-formatter": "^15.3.0",
     "theme-vitesse": "^0.7.7"
   }
 }

@@ -8,11 +8,11 @@
     }
 }
 .tant-editor-container {
-    padding: 16px 0 0 8px;
+    padding: 16px 0 0 0;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border: 1px solid var(--tant-border-color-border1-1);
-    .margin-view-overlays>div:has(div.active-line-number) {
+    .margin-view-overlays>div:has(div.active-line-number):has(div.current-line-margin-both) {
         background-color: #f1f2f5;
     }
     .monaco-editor .cursor {
