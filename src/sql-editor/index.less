@@ -10,17 +10,33 @@
         max-width: 360px !important;
         border-radius: 4px;
     }
+    .label-name {
+        transition: none;
+    }
+    .monaco-list-rows {
+        transform: none;
+    }
 
     .monaco-list-row {
         padding: 1px 10px;
         background-color: var(--tant-bg-white-color-bg1-1);
+
         &:hover {
             background-color: var(--tant-secondary-color-secondary-transp-hover) !important;
+        }
+
+        &:nth-child(odd) {
+            background-color: var(--tant-bg-white-color-bg1-1);
+        }
+
+        &:nth-child(even) {
+            background-color: var(--tant-fill-color-fill1-2);
         }
     }
 
     .monaco-list-row.focused {
         background-color: var(--tant-primary-color-primary-default) !important;
+
         &:hover {
             background-color: var(--tant-primary-color-primary-default) !important;
         }
@@ -44,7 +60,6 @@
 
     .left {
         color: var(--tant-text-gray-color-text1-2);
-        font-family: "Source Code Pro";
         font-size: 14px;
         font-style: normal;
         font-weight: 400;

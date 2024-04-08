@@ -20,7 +20,7 @@ const keywordList = [
 ];
 
 export default ({
-  onInit, runWidget, onCompletion = () => []
+  onInit, runWidget, onCompletion = () => [], completion
 }: SQL_EDITOR, ref: React.ForwardedRef<SQL_EDITOR_REF>) => {
   const [editor, setEditor] = useState<RC_EDITOR>();
   const editorRef = useRef<TANT_EDITOR_REF>({
@@ -99,27 +99,29 @@ export default ({
     if (languageRef.current) {
       languageRef.current.dispose();
     }
-    languageRef.current = monaco.languages.registerCompletionItemProvider('mysql', {
-      triggerCharacters: ['.'],
-      provideCompletionItems: async (model: any, position: any) => {
-        if (model.id !== editor.getModel()?.id) {
-          return;
+    if (completion) {
+      languageRef.current = monaco.languages.registerCompletionItemProvider('mysql', {
+        triggerCharacters: ['.'],
+        provideCompletionItems: async (model: any, position: any) => {
+          if (model.id !== editor.getModel()?.id) {
+            return;
+          }
+          const { lineNumber, column } = position
+          const arr = model.getValueInRange({
+            startLineNumber: lineNumber,
+            startColumn: 0,
+            endLineNumber: lineNumber,
+            endColumn: column
+          })?.split(' ') || [];
+          const str = arr[arr.length - 1] || '';
+          const list = await onCompletion(str, tableRef.current, keywordList);
+          return { suggestions: list, incomplete: true, dispose: true } as any;
+        },
+        resolveCompletionItem: (item: any) => {
+          return item;
         }
-        const { lineNumber, column } = position
-        const arr = model.getValueInRange({
-          startLineNumber: lineNumber,
-          startColumn: 0,
-          endLineNumber: lineNumber,
-          endColumn: column
-        })?.split(' ') || [];
-        const str = arr[arr.length - 1] || '';
-        const list = await onCompletion(str, tableRef.current, keywordList);
-        return { suggestions: list, incomplete: true, dispose: true } as any;
-      },
-      resolveCompletionItem: (item: any) => {
-        return item;
-      }
-    });
+      });
+    }
   }
 
   useImperativeHandle(ref, () => {

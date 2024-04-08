@@ -23,7 +23,7 @@ export default () => {
         {
           key: 'format',
           label: '格式化',
-          shortcutKeys: ['command', 'F'],
+          shortcutKeys: ['option', 'shift', 'F'],
           register: true,
         },
         {
@@ -118,6 +118,7 @@ export default () => {
         return list;
       }}
       onContextMenuChange={(key) => {
+        console.log(key);
         if (key === 'format' && editorRef.current?.format) {
           editorRef.current.format();
         }
