@@ -8,7 +8,14 @@
     .suggest-widget {
         width: 360px !important;
         max-width: 360px !important;
-        border-radius: 4px;
+        border-radius: 4px !important;
+        background-color: var(--tant-bg-white-color-bg1-1) !important;
+        border: 1px solid var(--tant-border-color-border1-1) !important;
+        box-shadow: var(--tant-small-shadow-small-bottom);
+        overflow: hidden;
+    }
+    .monaco-sash {
+        display: none !important;
     }
     .label-name {
         transition: none;
@@ -32,10 +39,16 @@
         &:nth-child(even) {
             background-color: var(--tant-fill-color-fill1-2);
         }
+        .monaco-highlighted-label {
+            color: var(--tant-text-gray-color-text1-2);
+        }
     }
 
     .monaco-list-row.focused {
         background-color: var(--tant-primary-color-primary-default) !important;
+        .monaco-highlighted-label {
+            color: var(--tant-white-white-100);
+        }
 
         &:hover {
             background-color: var(--tant-primary-color-primary-default) !important;

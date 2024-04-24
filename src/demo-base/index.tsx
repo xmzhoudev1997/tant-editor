@@ -3,7 +3,7 @@ import { TantEditor } from '@tant/editor';
 import React, { useRef } from 'react';
 import { useSetState } from 'ahooks';
 import './index.less';
-import { registerEditor } from '@tant/rc-editor';
+import { registerEditor } from '@tant/editor';
 
 registerEditor();
 
@@ -13,7 +13,7 @@ export default () => {
       className="tant-editor-demo"
       language="mysql"
       initOptions={{
-        theme: 'tant-light'
+        theme: 'tant-dark'
       }}
       contextMenu={[
         {

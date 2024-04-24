@@ -1,11 +1,10 @@
 import React, { useImperativeHandle, useRef, useState, useEffect } from "react";
-import { RC_EDITOR } from '@tant/rc-editor';
+import { RC_EDITOR, RC_EDITOR_TOOL } from '@tant/rc-editor';
 import { SQL_EDITOR, SQL_EDITOR_REF } from "./props";
 import { TANT_EDITOR_REF } from "xm-tabs/editor/props";
 import { format as SqlFormatter } from 'sql-formatter';
 import { language as sqlLanguage } from 'monaco-editor/esm/vs/basic-languages/mysql/mysql';
 import RunWidget from './components/run-widget';
-import Monaco from 'monaco-editor/esm/vs/editor/editor.api.d';
 
 const keywordList = [
   ...sqlLanguage.builtinFunctions,
@@ -92,7 +91,7 @@ export default ({
     }
     editor.onDidChangeModelContent(() => handleTable(editor));
     handleTable(editor); // 初始化执行一次
-    const monaco: typeof Monaco = (window as any).monaco;
+    const monaco: RC_EDITOR_TOOL = (window as any).monaco;
     if (languageRef.current) {
       languageRef.current.dispose();
     }

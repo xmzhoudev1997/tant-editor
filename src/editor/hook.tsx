@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 export default ({
   initOptions = {}, contextMenu, onContextMenuChange = () => { },
-  onInit, disabled, onChange = () => { }, beforeInit,
+  onInit, disabled, onChange = () => { },
 }: TANT_EDITOR, ref: React.ForwardedRef<TANT_EDITOR_REF>) => {
   const [contextMenuOpen, setContextMenuOpen] = useState(false);
   const [editor, setEditor] = useState<RC_EDITOR>();

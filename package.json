@@ -54,7 +54,8 @@
   },
   "peerDependencies": {
     "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
+    "react-dom": ">=16.9.0",
+    "monaco-editor": "0.47.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -88,7 +89,6 @@
     "keycode": "^2.2.1",
     "lodash": "^4.17.21",
     "lossless-json": "^4.0.1",
-    "monaco-editor": "^0.48.0",
     "sql-formatter": "^15.3.0",
     "theme-vitesse": "^0.7.7"
   }
