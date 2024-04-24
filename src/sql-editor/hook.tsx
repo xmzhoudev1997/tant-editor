@@ -1,5 +1,5 @@
 import React, { useImperativeHandle, useRef, useState, useEffect } from "react";
-import { RC_EDITOR } from '@xmzhou/rc-editor';
+import { RC_EDITOR } from '@tant/rc-editor';
 import { SQL_EDITOR, SQL_EDITOR_REF } from "./props";
 import { TANT_EDITOR_REF } from "xm-tabs/editor/props";
 import { format as SqlFormatter } from 'sql-formatter';

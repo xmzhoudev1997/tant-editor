@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
-import { RC_EDITOR_API, RC_EDITOR } from '@xmzhou/rc-editor';
-import { RC_CONTEXT_MENU_DIVIDER, RC_CONTEXT_MENU_ITEM } from '@xmzhou/rc-contextmenu';
+import { RC_EDITOR_API, RC_EDITOR } from '@tant/rc-editor';
+import { RC_CONTEXT_MENU_DIVIDER, RC_CONTEXT_MENU_ITEM } from '@tant/rc-contextmenu';
 
 
 export interface TANT_EDITOR_REF {

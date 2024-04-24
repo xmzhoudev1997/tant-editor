@@ -3,14 +3,14 @@ import './index.less';
 import { debounce } from "lodash";
 import { ReactNode } from "react";
 import { createRoot } from "react-dom/client";
-import { RC_EDITOR } from '@xmzhou/rc-editor';
+import { RC_EDITOR } from '@tant/rc-editor';
 
 class Index {
   private _editor: RC_EDITOR;
   private _render: (sql: string) => ReactNode;
   private _domNode: HTMLDivElement = document.createElement('div');
   private _root = createRoot(this._domNode);
-  constructor(editor: RC_EDITOR, render: (sql: string) => ReactNode = () => '运行') {
+  constructor(editor: RC_EDITOR, render: (sql: string) => ReactNode = () => '') {
     this._editor = editor;
     const editorDom = editor.getDomNode();
     const lineNumberDom = editorDom?.querySelector('.overflow-guard')?.children[0];
@@ -30,11 +30,14 @@ class Index {
       this._domNode.style.top = '0px';
       return;
     }
+    const render = this._render((selection ? this._editor.getModel()?.getValueInRange(selection) : '') || '');
+    if (!render) {
+      return;
+    }
     this._domNode.style.display = 'block';
     const lineNumber = this._editor.getPosition()?.lineNumber || 1;
     const top = this._editor.getTopForLineNumber(lineNumber);
     this._domNode.style.top = `${top}px`;
-    const render = this._render((selection ? this._editor.getModel()?.getValueInRange(selection) : '') || '');
     this._root.render(render);
   }, 200);
   dispose = () => {

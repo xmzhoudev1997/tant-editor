@@ -3,8 +3,8 @@ import './index.less';
 import classnames from 'classnames';
 import useData from './hook';
 import { TANT_CONTEXT_MENU_ITEM, TANT_EDITOR, TANT_EDITOR_REF } from "./props";
-import { RCEditor } from '@xmzhou/rc-editor';
-import { RCContextMenu } from '@xmzhou/rc-contextmenu';
+import { RCEditor } from '@tant/rc-editor';
+import { RCContextMenu } from '@tant/rc-contextmenu';
 
 const Index = forwardRef<TANT_EDITOR_REF, TANT_EDITOR>((props, ref) => {
   const {
@@ -12,7 +12,7 @@ const Index = forwardRef<TANT_EDITOR_REF, TANT_EDITOR>((props, ref) => {
   } = props;
   const {
     defaultOptions, handleInit, handleContextMenuChange,
-    contextMenuOpen, setContextMenuOpen,
+    contextMenuOpen, setContextMenuOpen, handleBdforeInit,
   } = useData(props, ref);
 
   return (
@@ -28,6 +28,7 @@ const Index = forwardRef<TANT_EDITOR_REF, TANT_EDITOR>((props, ref) => {
           initOptions={defaultOptions as any}
           className={classnames('tant-editor', className)}
           onInit={handleInit}
+          beforeInit={handleBdforeInit}
         />
       </div>
     </RCContextMenu>

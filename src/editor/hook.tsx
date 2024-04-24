@@ -1,10 +1,8 @@
-import React, { useImperativeHandle, useRef, useState } from "react";
+import React, { useImperativeHandle, useState } from "react";
 import { TANT_CONTEXT_MENU_ITEM, TANT_EDITOR, TANT_EDITOR_REF } from "./props";
 import ThemeVitesseLight from 'theme-vitesse/themes/vitesse-light.json';
-import { RC_EDITOR } from '@xmzhou/rc-editor';
+import { RC_EDITOR, RC_EDITOR_TOOL } from '@tant/rc-editor';
 import { useEffect } from "react";
-import Monaco from 'monaco-editor/esm/vs/editor/editor.api.d';
-import keycode from 'keycode';
 
 document.addEventListener('onEditorRegistered', () => {
   const monaco: any = (window as any).monaco;
@@ -28,7 +26,7 @@ document.addEventListener('onEditorRegistered', () => {
 
 export default ({
   initOptions = {}, contextMenu, onContextMenuChange = () => { },
-  onInit, disabled, onChange = () => { }
+  onInit, disabled, onChange = () => { }, beforeInit,
 }: TANT_EDITOR, ref: React.ForwardedRef<TANT_EDITOR_REF>) => {
   const [contextMenuOpen, setContextMenuOpen] = useState(false);
   const [editor, setEditor] = useState<RC_EDITOR>();
@@ -46,14 +44,14 @@ export default ({
     editor.focus();
     editor.trigger('', 'editor.action.gotoLine', () => { })
   }
-  const handleContextMenuChange = (d: TANT_CONTEXT_MENU_ITEM, editor?: RC_EDITOR) => {
-    if (!editor) {
-      return;
+  const handleContextMenuChange = (d: TANT_CONTEXT_MENU_ITEM, edit?: RC_EDITOR) => {
+    if (!edit) {
+      edit = editor;
     }
     const command = d.command;
-    if (command) {
-      editor.focus();
-      editor.trigger('', command, () => { })
+    if (command && edit) {
+      edit.focus();
+      edit.trigger('', command, () => { })
     }
     onContextMenuChange(d.key);
   }
@@ -62,7 +60,7 @@ export default ({
       await onInit(editor);
     }
     let code: number = NaN;
-    const monaco: typeof Monaco = (window as any).monaco;
+    const monaco: RC_EDITOR_TOOL = (window as any).monaco;
     const SPECIAL_KEY_MAP = {
       command: monaco.KeyMod.CtrlCmd,
       option: monaco.KeyMod.Alt,
@@ -110,7 +108,7 @@ export default ({
       if (!shortcutKeys.length || !(d as TANT_CONTEXT_MENU_ITEM).register) {
         return;
       }
-      shortcutKeys.forEach((k) => {
+      shortcutKeys.forEach((k: string) => {
         code |= (SPECIAL_KEY_MAP as any)[k] ?? (monaco.KeyCode as any)[k];
       })
       editor.addCommand(code, () => handleContextMenuChange(d as TANT_CONTEXT_MENU_ITEM, editor));
@@ -120,6 +118,26 @@ export default ({
     })
     editor.onDidChangeModelContent(() => onChange(editor.getValue()));
     setEditor(editor);
+  }
+  const handleBdforeInit = async (tool: RC_EDITOR_TOOL) => {
+    if (beforeInit) {
+      await beforeInit(tool);
+    }
+    ThemeVitesseLight.colors["editor.background"] = '#F9F9FB';
+    ThemeVitesseLight.colors["editorLineNumber.foreground"] = '#d0d7d9';
+    ThemeVitesseLight.colors["editor.lineHighlightBackground"] = '#f1f2f5';
+    ThemeVitesseLight.colors["editor.inactiveSelectionBackground"] = '#B9BECF4D';
+
+    ThemeVitesseLight.rules.unshift({
+      token: 'tant-variable',
+      foreground: '#915AFF',
+    });
+    ThemeVitesseLight.rules.unshift({
+      token: 'tant-variable-bracket',
+      foreground: '#C0A9FF',
+    });
+
+    tool.editor.defineTheme('tant-light', ThemeVitesseLight as any);
   }
   useImperativeHandle(ref, () => {
     return {
@@ -159,5 +177,6 @@ export default ({
     contextMenuOpen,
     setContextMenuOpen,
     defaultOptions,
+    handleBdforeInit,
   }
 }
