@@ -7,12 +7,6 @@ import { language as sqlLanguage } from 'monaco-editor/esm/vs/basic-languages/my
 import RunWidget from './components/run-widget';
 import Monaco from 'monaco-editor/esm/vs/editor/editor.api.d';
 
-document.addEventListener('onEditorRegistered', () => {
-  const monaco: any = (window as any).monaco;
-  sqlLanguage.tokenizer.root.unshift([/(\$\{)(.*?)(\:*?)(.*?)(\})/, ['tant-variable-bracket', 'tant-variable', 'tant-variable-bracket', 'tant-variable', 'tant-variable-bracket']]);
-  monaco.languages.setMonarchTokensProvider('mysql', sqlLanguage);
-});
-
 const keywordList = [
   ...sqlLanguage.builtinFunctions,
   ...sqlLanguage.keywords,
@@ -20,7 +14,7 @@ const keywordList = [
 ];
 
 export default ({
-  onInit, runWidget, onCompletion = () => [], completion
+  onInit, runWidget, onCompletion = () => [], completion,
 }: SQL_EDITOR, ref: React.ForwardedRef<SQL_EDITOR_REF>) => {
   const [editor, setEditor] = useState<RC_EDITOR>();
   const editorRef = useRef<TANT_EDITOR_REF>({
@@ -31,15 +25,16 @@ export default ({
   const runRef = useRef<RunWidget>(null);
   const tableRef = useRef<string[][]>([]);
   const languageRef = useRef<any>(null);
-  const handleFormat = () => {
+  const handleFormat = (formatSelection: boolean = false) => {
     if (!editor) {
       return;
     }
+    const selection = editor.getSelection();
     const model = editor?.getModel();
     if (!model) {
       return;
     }
-    const str = model.getValue();
+    const str = selection && formatSelection ? model.getValueInRange(selection) : model.getValue();
     const argus: string[] = [];
     const a = Date.now();
 
@@ -67,6 +62,8 @@ export default ({
         text: originStr,
       },
     ]);
+    editor.setScrollLeft(0);
+    editor.setScrollTop(0);
   }
   const handleTable = (editor: RC_EDITOR) => {
     const tableMap: Record<string, string[]> = {};

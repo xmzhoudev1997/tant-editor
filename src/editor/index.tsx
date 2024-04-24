@@ -12,7 +12,7 @@ const Index = forwardRef<TANT_EDITOR_REF, TANT_EDITOR>((props, ref) => {
   } = props;
   const {
     defaultOptions, handleInit, handleContextMenuChange,
-    contextMenuOpen, setContextMenuOpen, handleBdforeInit,
+    contextMenuOpen, setContextMenuOpen,
   } = useData(props, ref);
 
   return (
@@ -28,7 +28,6 @@ const Index = forwardRef<TANT_EDITOR_REF, TANT_EDITOR>((props, ref) => {
           initOptions={defaultOptions as any}
           className={classnames('tant-editor', className)}
           onInit={handleInit}
-          beforeInit={handleBdforeInit}
         />
       </div>
     </RCContextMenu>

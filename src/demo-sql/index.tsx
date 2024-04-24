@@ -1,12 +1,9 @@
 // @ts-nocheck
 import { SQLEditor } from '@tant/editor';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import './index.less';
-import { registerEditor } from '@xmzhou/rc-editor';
 import { Button } from '@tant/ui-next';
 import { TaPlay } from '@tant/icons';
-
-registerEditor();
 
 export default () => {
   const editorRef = useRef(null);
@@ -116,6 +113,9 @@ export default () => {
         })
         console.log(list);
         return list;
+      }}
+      initOptions={{
+        theme: 'tant-dark'
       }}
       onContextMenuChange={(key) => {
         console.log(key);

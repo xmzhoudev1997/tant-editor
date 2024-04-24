@@ -12,10 +12,7 @@
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border: 1px solid var(--tant-border-color-border1-1);
-    background-color: var(--tant-fill-color-fill1-1);
-    .margin-view-overlays>div:has(div.active-line-number):has(div.current-line-margin-both) {
-        background-color: #f1f2f5;
-    }
+    
     .monaco-editor .cursor {
         background-color: var(--tant-primary-color-primary-default) !important;
         width: 2px !important;
@@ -23,4 +20,16 @@
         height: 15px !important;
         animation: cursorBlink 666ms step-end infinite;
     }
+}
+.tant-light {
+    .margin-view-overlays>div:has(div.active-line-number):has(div.current-line-margin-both) {
+        background-color: #B9BECF33;
+    }
+    background-color: #F9F9FB;
+}
+.tant-dark {
+    .margin-view-overlays>div:has(div.active-line-number):has(div.current-line-margin-both) {
+        background-color: #B9BECF1A;
+    }
+    background-color: #1F1E24;
 }

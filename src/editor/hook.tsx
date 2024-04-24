@@ -1,28 +1,7 @@
 import React, { useImperativeHandle, useState } from "react";
 import { TANT_CONTEXT_MENU_ITEM, TANT_EDITOR, TANT_EDITOR_REF } from "./props";
-import ThemeVitesseLight from 'theme-vitesse/themes/vitesse-light.json';
 import { RC_EDITOR, RC_EDITOR_TOOL } from '@tant/rc-editor';
 import { useEffect } from "react";
-
-document.addEventListener('onEditorRegistered', () => {
-  const monaco: any = (window as any).monaco;
-  ThemeVitesseLight.colors["editor.background"] = '#F9F9FB';
-  ThemeVitesseLight.colors["editorLineNumber.foreground"] = '#d0d7d9';
-  ThemeVitesseLight.colors["editor.lineHighlightBackground"] = '#f1f2f5';
-  ThemeVitesseLight.colors["editor.inactiveSelectionBackground"] = '#B9BECF4D';
-
-  ThemeVitesseLight.rules.unshift({
-    token: 'tant-variable',
-    foreground: '#915AFF',
-  });
-  ThemeVitesseLight.rules.unshift({
-    token: 'tant-variable-bracket',
-    foreground: '#C0A9FF',
-  });
-
-  monaco.editor.defineTheme('tant-light', ThemeVitesseLight as any);
-});
-
 
 export default ({
   initOptions = {}, contextMenu, onContextMenuChange = () => { },
@@ -119,26 +98,6 @@ export default ({
     editor.onDidChangeModelContent(() => onChange(editor.getValue()));
     setEditor(editor);
   }
-  const handleBdforeInit = async (tool: RC_EDITOR_TOOL) => {
-    if (beforeInit) {
-      await beforeInit(tool);
-    }
-    ThemeVitesseLight.colors["editor.background"] = '#F9F9FB';
-    ThemeVitesseLight.colors["editorLineNumber.foreground"] = '#d0d7d9';
-    ThemeVitesseLight.colors["editor.lineHighlightBackground"] = '#f1f2f5';
-    ThemeVitesseLight.colors["editor.inactiveSelectionBackground"] = '#B9BECF4D';
-
-    ThemeVitesseLight.rules.unshift({
-      token: 'tant-variable',
-      foreground: '#915AFF',
-    });
-    ThemeVitesseLight.rules.unshift({
-      token: 'tant-variable-bracket',
-      foreground: '#C0A9FF',
-    });
-
-    tool.editor.defineTheme('tant-light', ThemeVitesseLight as any);
-  }
   useImperativeHandle(ref, () => {
     return {
       editor,
@@ -152,7 +111,6 @@ export default ({
     }
     handleInit(editor);
   }, [contextMenu])
-
   const defaultOptions = {
     minimap: {
       enabled: false,
@@ -162,6 +120,7 @@ export default ({
     lineNumbersMinChars: 3,
     contextmenu: false,
     suggestLineHeight: 24,
+    cursorBlinking: 'solid',
     ...initOptions,
     theme: initOptions.theme || 'tant-light',
   };
@@ -177,6 +136,5 @@ export default ({
     contextMenuOpen,
     setContextMenuOpen,
     defaultOptions,
-    handleBdforeInit,
   }
 }

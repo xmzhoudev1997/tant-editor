@@ -6,7 +6,7 @@ export interface SQL_EDITOR_REF extends TANT_EDITOR_REF {
     /**
      * 格式化编辑器内容
      */
-    format: () => void;
+    format: (formatSelection?: boolean) => void;
 }
 
 export interface SQL_EDITOR extends Omit<Omit<TANT_EDITOR, 'ref'>, "language"> {
