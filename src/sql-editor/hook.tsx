@@ -13,23 +13,18 @@ const keywordList = [
 ];
 
 export default ({
-  onInit, runWidget, onCompletion = () => [], completion,
-}: SQL_EDITOR, ref: React.ForwardedRef<SQL_EDITOR_REF>) => {
-  const [editor, setEditor] = useState<RC_EDITOR>();
-  const editorRef = useRef<TANT_EDITOR_REF>({
-    editor: null as any,
-    changeTabSize: () => { },
-    changePosition: () => { },
-  });
+  onInit, runWidget, onCompletion = () => [], completion, onEditorChange = () => {},
+}: SQL_EDITOR) => {
+  const editorRef = useRef<TANT_EDITOR_REF>({} as TANT_EDITOR_REF);
   const runRef = useRef<RunWidget>(null);
   const tableRef = useRef<string[][]>([]);
   const languageRef = useRef<any>(null);
   const handleFormat = (formatSelection: boolean = false) => {
-    if (!editor) {
+    if (!editorRef.current.editor) {
       return;
     }
-    const selection = editor.getSelection();
-    const model = editor?.getModel();
+    const selection = editorRef.current.editor.getSelection();
+    const model = editorRef.current.editor?.getModel();
     if (!model) {
       return;
     }
@@ -55,14 +50,14 @@ export default ({
       i += 1;
       return argus[i];
     });
-    editor.executeEdits('formatter', [
+    editorRef.current.editor.executeEdits('formatter', [
       {
-        range: model.getFullModelRange(),
+        range: selection && formatSelection ? selection : model.getFullModelRange(),
         text: originStr,
       },
     ]);
-    editor.setScrollLeft(0);
-    editor.setScrollTop(0);
+    editorRef.current.editor.setScrollLeft(0);
+    editorRef.current.editor.setScrollTop(0);
   }
   const handleTable = (editor: RC_EDITOR) => {
     const tableMap: Record<string, string[]> = {};
@@ -78,7 +73,6 @@ export default ({
     if (onInit) {
       await onInit(editor);
     }
-    setEditor(editor);
     if (runWidget) {
       if (typeof runWidget === 'boolean') {
         (runRef as any).current = new RunWidget(editor);
@@ -119,24 +113,23 @@ export default ({
       });
     }
   }
-
-  useImperativeHandle(ref, () => {
-    return {
-      ...editorRef.current,
-      editor: editor as any,
+  const handleEditorChange = (data: TANT_EDITOR_REF) => {
+    editorRef.current = data;
+    onEditorChange({
+      ...data,
       format: handleFormat,
-    };
-  }, [editorRef.current, editor]);
+    })
+  }
   useEffect(() => {
     return () => {
       if (languageRef.current) {
         languageRef.current.dispose();
       }
     }
-  }, [])
+  }, []);
 
   return {
-    editorRef,
     handleInit,
+    handleEditorChange,
   }
 }

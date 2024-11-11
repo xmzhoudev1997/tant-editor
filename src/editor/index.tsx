@@ -1,37 +1,28 @@
-import React, { forwardRef } from "react";
+import React, { FC } from "react";
 import './index.less';
 import classnames from 'classnames';
 import useData from './hook';
-import { TANT_CONTEXT_MENU_ITEM, TANT_EDITOR, TANT_EDITOR_REF } from "./props";
+import { TANT_EDITOR } from "./props";
 import { RCEditor } from '@tant/rc-editor';
-import { RCContextMenu } from '@tant/rc-contextmenu';
 
-const Index = forwardRef<TANT_EDITOR_REF, TANT_EDITOR>((props, ref) => {
+const Index: FC<TANT_EDITOR> = (props) => {
   const {
-    className, contextMenu, initOptions, ...extProps
+    className, initOptions, theme, ...extProps
   } = props;
   const {
-    defaultOptions, handleInit, handleContextMenuChange,
-    contextMenuOpen, setContextMenuOpen,
-  } = useData(props, ref);
+    defaultOptions, handleInit,
+  } = useData(props);
 
   return (
-    <RCContextMenu
-      menu={contextMenu}
-      onChange={(v, d) => handleContextMenuChange(d as TANT_CONTEXT_MENU_ITEM)}
-      visible={contextMenuOpen}
-      onVisibleChange={setContextMenuOpen}
-    >
-      <div className={classnames('tant-editor-container', initOptions?.theme || 'tant-light')}>
-        <RCEditor
-          {...extProps as any}
-          initOptions={defaultOptions as any}
-          className={classnames('tant-editor', className)}
-          onInit={handleInit}
-        />
-      </div>
-    </RCContextMenu>
+    <div className={classnames('tant-editor-container', className, theme || 'tant-light')}>
+      <RCEditor
+        {...extProps as any}
+        initOptions={defaultOptions as any}
+        className="tant-editor"
+        onInit={handleInit}
+      />
+    </div>
   );
-});
+};
 
 export default Index;

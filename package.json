@@ -1,6 +1,6 @@
 {
   "name": "@tant/editor",
-  "version": "0.1.9",
+  "version": "0.2.4",
   "description": "一个基于React的标签页管理工具",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -53,15 +53,16 @@
     "access": "public"
   },
   "peerDependencies": {
+    "monaco-editor": "0.47.0",
     "react": ">=16.9.0",
-    "react-dom": ">=16.9.0",
-    "monaco-editor": "0.47.0"
+    "react-dom": ">=16.9.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@svgr/webpack": "^8.1.0",
     "@types/lodash": "^4.17.0",
+    "@types/prettier": "^3.0.0",
     "@types/react": "^18.0.0",
     "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^18.0.0",
@@ -71,7 +72,6 @@
     "father": "^4.1.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^3.0.0",
     "prettier-plugin-packagejson": "^2.2.18",
     "react": "^18.0.0",
@@ -82,13 +82,14 @@
   "dependencies": {
     "@tant/icons": "^1.6.0",
     "@tant/rc-contextmenu": "^0.1.7",
-    "@tant/rc-editor": "^0.2.8",
+    "@tant/rc-editor": "^0.2.10",
     "@tant/ui-next": "^2.60.16",
     "ahooks": "^3.7.10",
     "classnames": "^2.5.1",
     "keycode": "^2.2.1",
     "lodash": "^4.17.21",
     "lossless-json": "^4.0.1",
+    "prettier": "^2.7.1",
     "sql-formatter": "^15.3.0",
     "theme-vitesse": "^0.7.7"
   }

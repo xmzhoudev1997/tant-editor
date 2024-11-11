@@ -1,7 +1,4 @@
-import React, { ReactNode } from "react";
 import { RC_EDITOR_API, RC_EDITOR } from '@tant/rc-editor';
-import { RC_CONTEXT_MENU_DIVIDER, RC_CONTEXT_MENU_ITEM } from '@tant/rc-contextmenu';
-
 
 export interface TANT_EDITOR_REF {
     /**
@@ -22,20 +19,6 @@ export interface TANT_EDITOR_REF {
 
 export interface TANT_EDITOR extends Omit<RC_EDITOR_API, 'ref'> {
   /**
-   * 返回编辑器实例和常用操作函数
-   */
-  ref?: React.MutableRefObject<TANT_EDITOR_REF>,
-  /**
-   * 右击菜单配置
-   */
-  contextMenu?: TANT_CONTEXT_MENU[],
-  /**
-   * 点击右击菜单或快捷键触发
-   * @param key 
-   * @returns 
-   */
-  onContextMenuChange?: (key: string) => void;
-  /**
    * 内容变化时触发
    * @param v 
    * @returns 
@@ -45,17 +28,14 @@ export interface TANT_EDITOR extends Omit<RC_EDITOR_API, 'ref'> {
    * 是否禁用
    */
   disabled?: boolean;
-}
-
-export type TANT_CONTEXT_MENU = TANT_CONTEXT_MENU_ITEM | RC_CONTEXT_MENU_DIVIDER;
-
-export interface TANT_CONTEXT_MENU_ITEM extends Omit<RC_CONTEXT_MENU_ITEM, 'render'> {
   /**
-   * 编辑器自带功能，配置后直接触发内置操作
+   * 主题
    */
-  command?: string;
+  theme?: string;
   /**
-   * 非编辑器自带功能，手动注册快捷键响应
+   * 获取编辑器实例时触发
+   * @param v 
+   * @returns 
    */
-  register?: boolean;
+  onEditorChange?: (d: TANT_EDITOR_REF) => void;
 }

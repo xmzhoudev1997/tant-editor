@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { SQLEditor } from '@tant/editor';
+import { ShellEditor } from '@tant/editor';
 import React, { useRef } from 'react';
 import './index.less';
 import { Button } from '@tant/ui-next';
@@ -9,13 +9,10 @@ export default () => {
   const editorRef = useRef(null);
 
   return (
-    <SQLEditor
+    <ShellEditor
       className="tant-editor-demo"
       onEditorChange={(d) => {
         editorRef.current = d
-      }}
-      runWidget={() => {
-        return <Button type="white" title="运行" icon={<TaPlay />} size="small" style={{ width: 32 }} />
       }}
       value={"SELECT \"#user_id\" , sum(\"pay_amount_sum\") as \"pay_amount_sum\" FROM /* 增量数据 */ ( SELECT \"#user_id\" , sum(\"pay_amount\") as FROM ta_dim.datatable WHERE \"$part_event\" = \"payment\" GROUP BY \"#user_id\" UNION ALL /* 现有数据 */ SELECT \"#user_id\",\"pay_amount_sum\" FROM ta_dim.datatable WHERE \"#user_id\" = ${Variable1} ) GROUP BY \"#user_id\""}
       contextMenu={[
@@ -62,60 +59,6 @@ export default () => {
           shortcutKeys: ['command', 'v'],
         },
       ]}
-      onChange={(v) => {
-      }}
-      onCompletion={(
-        kwd: string,
-        tables: string[],
-        keywords: string[],
-      ) => {
-        // const list = []
-        const list  = keywords.map(d => ({
-          label: {
-            label: d,
-            description: '关键字',
-          },
-          kind: 17,
-          insertText: d,
-        }));
-        // tables.forEach((d) => {
-        //   list.push({
-        //     label: {
-        //       label: d,
-        //       description: '表',
-        //     },
-        //     kind: 3,
-        //     insertText: d,
-        //   })
-        // })
-        list.push({
-          label: {
-            label: kwd,
-            description: '字段',
-          },
-          kind: 18,
-          insertText: kwd,
-        })
-
-        list.push({
-          label: {
-            label: kwd,
-            description: '函数',
-          },
-          kind: 1,
-          insertText: kwd,
-        })
-        list.push({
-          label: {
-            label: kwd,
-            description: '表',
-          },
-          kind: 3,
-          insertText: kwd,
-        })
-        console.log(list);
-        return list;
-      }}
       initOptions={{
         theme: 'tant-dark'
       }}

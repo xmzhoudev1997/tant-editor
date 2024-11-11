@@ -3,9 +3,9 @@ import './index.less';
 import classnames from 'classnames';
 import useData from './hook';
 import TantEditor from '../editor';
-import { SQL_EDITOR } from "./props";
+import { SHELL_EDITOR } from "./props";
 
-const Index: FC<SQL_EDITOR> = (props) => {
+const Index: FC<SHELL_EDITOR> = (props) => {
   const {
     className, ...extProps
   } = props;
@@ -16,8 +16,8 @@ const Index: FC<SQL_EDITOR> = (props) => {
   return (
     <TantEditor
       {...extProps}
-      className={classnames('sql-editor', className)}
-      language="mysql"
+      className={classnames('shell-editor', className)}
+      language="shell"
       onInit={handleInit}
       onEditorChange={handleEditorChange}
     />

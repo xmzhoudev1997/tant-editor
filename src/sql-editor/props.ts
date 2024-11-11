@@ -9,11 +9,7 @@ export interface SQL_EDITOR_REF extends TANT_EDITOR_REF {
     format: (formatSelection?: boolean) => void;
 }
 
-export interface SQL_EDITOR extends Omit<Omit<TANT_EDITOR, 'ref'>, "language"> {
-    /**
-     * 返回编辑器实例和常用操作函数
-     */
-    ref?: React.MutableRefObject<SQL_EDITOR_REF>,
+export interface SQL_EDITOR extends Omit<Omit<TANT_EDITOR, 'onEditorChange'>, "language"> {
     /**
      * 是否展示run组件或自定义内容
      */
@@ -30,4 +26,5 @@ export interface SQL_EDITOR extends Omit<Omit<TANT_EDITOR, 'ref'>, "language"> {
         tables: string[][],
         keywords: string[],
     ) => Monaco.languages.CompletionItem[];
+    onEditorChange?: (data: SQL_EDITOR_REF) => void;
 }
