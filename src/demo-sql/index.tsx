@@ -117,7 +117,7 @@ export default () => {
         return list;
       }}
       initOptions={{
-        theme: 'tant-dark'
+        // theme: 'tant-dark'
       }}
       onContextMenuChange={(key) => {
         if (key === 'format' && editorRef.current?.format) {

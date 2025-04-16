@@ -1,6 +1,6 @@
 {
   "name": "@tant/editor",
-  "version": "0.2.4",
+  "version": "0.2.15",
   "description": "一个基于React的标签页管理工具",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -62,7 +62,6 @@
     "@commitlint/config-conventional": "^17.1.0",
     "@svgr/webpack": "^8.1.0",
     "@types/lodash": "^4.17.0",
-    "@types/prettier": "^3.0.0",
     "@types/react": "^18.0.0",
     "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^18.0.0",
@@ -89,6 +88,7 @@
     "keycode": "^2.2.1",
     "lodash": "^4.17.21",
     "lossless-json": "^4.0.1",
+    "mvdan-sh": "^0.10.1",
     "prettier": "^2.7.1",
     "sql-formatter": "^15.3.0",
     "theme-vitesse": "^0.7.7"

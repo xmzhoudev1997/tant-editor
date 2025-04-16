@@ -1,67 +1,67 @@
 // @ts-nocheck
 import { ShellEditor } from '@tant/editor';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './index.less';
 import { Button } from '@tant/ui-next';
 import { TaPlay } from '@tant/icons';
+import { registerEditor } from '@tant/editor';
 
+// registerEditor();
 export default () => {
   const editorRef = useRef(null);
-
   return (
     <ShellEditor
       className="tant-editor-demo"
       onEditorChange={(d) => {
         editorRef.current = d
       }}
-      value={"SELECT \"#user_id\" , sum(\"pay_amount_sum\") as \"pay_amount_sum\" FROM /* 增量数据 */ ( SELECT \"#user_id\" , sum(\"pay_amount\") as FROM ta_dim.datatable WHERE \"$part_event\" = \"payment\" GROUP BY \"#user_id\" UNION ALL /* 现有数据 */ SELECT \"#user_id\",\"pay_amount_sum\" FROM ta_dim.datatable WHERE \"#user_id\" = ${Variable1} ) GROUP BY \"#user_id\""}
-      contextMenu={[
-        {
-          key: 'format',
-          label: '格式化',
-          shortcutKeys: ['option', 'shift', 'F'],
-          register: true,
-        },
-        {
-          key: 'rename',
-          label: '更改所有匹配项',
-          command: 'editor.action.changeAll',
-          shortcutKeys: ['command', 'F2'],
-        },
-        {
-          key: 'run',
-          label: '运行',
-          shortcutKeys: ['command', 'enter'],
-          register: true,
-        },
-        {
-          key: 'divider1',
-          type: 'divider'
-        },
-        {
-          key: 'copy',
-          label: '复制',
-          command: 'editor.action.clipboardCopyAction',
-          shortcutKeys: ['command', 'c'],
-        },
+      value={`
+        #!/bin/bash
+# Simple line count example, using bash
+#
+# Bash tutorial: http://linuxconfig.org/Bash_scripting_Tutorial#8-2-read-file-into-bash-array
+# My scripting link: http://www.macs.hw.ac.uk/~hwloidl/docs/index.html#scripting
+#
+# Usage: ./line_count.sh file
+# -----------------------------------------------------------------------------
 
-        {
-          key: 'cut',
-          label: '剪切',
-          command: 'editor.action.clipboardCutAction',
-          shortcutKeys: ['command', 'x'],
-        },
+# Link filedescriptor 10 with stdin
+exec 10<&0
+# stdin replaced with a file supplied as a first argument
+exec < $1
+# remember the name of the input file
+in=$1
+# init
+file="current_line.txt"
+let count=0
 
-        {
-          key: 'paste',
-          label: '粘贴',
-          command: 'editor.action.clipboardPasteAction',
-          shortcutKeys: ['command', 'v'],
-        },
-      ]}
+# this while loop iterates over all lines of the file
+while read LINE
+do
+    # increase line counter
+    ((count++))
+    # write current line to a tmp file with name $file (not needed for counting)
+    echo $LINE > $file
+    # this checks the return code of echo (not needed for writing; just for demo)
+    if [ $? -ne 0 ]
+     then echo "Error in writing to file \${file}; check its permissions!"
+    fi
+done
+
+echo "Number of lines: $count"
+echo "The last line of the file is: \`cat \${file}\`"
+
+# Note: You can achieve the same by just using the tool wc like this
+echo "Expected number of lines: \`wc -l $in\`"
+
+# restore stdin from filedescriptor 10
+# and close filedescriptor 10
+exec 0<&10 10<&-
+        `}
       initOptions={{
-        theme: 'tant-dark'
+        // theme: 'tant-dark'
       }}
+      theme="vs-light"
       onContextMenuChange={(key) => {
         if (key === 'format' && editorRef.current?.format) {
           editorRef.current.format();

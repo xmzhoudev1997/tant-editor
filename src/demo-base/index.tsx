@@ -13,8 +13,9 @@ export default () => {
       className="tant-editor-demo"
       language="mysql"
       initOptions={{
-        theme: 'tant-dark'
+        
       }}
+      theme="tant-light"
       contextMenu={[
         {
           key: 'format',

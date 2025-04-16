@@ -1,6 +1,6 @@
-import React, { useImperativeHandle, useRef, useState, useEffect } from "react";
+import React, {useRef, useEffect } from "react";
 import { RC_EDITOR, RC_EDITOR_TOOL } from '@tant/rc-editor';
-import { SQL_EDITOR, SQL_EDITOR_REF } from "./props";
+import { SQL_EDITOR } from "./props";
 import { TANT_EDITOR_REF } from "xm-tabs/editor/props";
 import { format as SqlFormatter } from 'sql-formatter';
 import { language as sqlLanguage } from 'monaco-editor/esm/vs/basic-languages/mysql/mysql';
@@ -17,9 +17,8 @@ export default ({
 }: SQL_EDITOR) => {
   const editorRef = useRef<TANT_EDITOR_REF>({} as TANT_EDITOR_REF);
   const runRef = useRef<RunWidget>(null);
-  const tableRef = useRef<string[][]>([]);
   const languageRef = useRef<any>(null);
-  const handleFormat = (formatSelection: boolean = false) => {
+  const handleFormat = (formatSelection: boolean = false, language: string = 'mysql') => {
     if (!editorRef.current.editor) {
       return;
     }
@@ -41,7 +40,7 @@ export default ({
         argus.push(s);
         return `${a}`;
       })
-    const formatStr = SqlFormatter(dealStr);
+    const formatStr = SqlFormatter(dealStr, { language: language as any });
     let i = -1;
     const originStr = formatStr.replace(new RegExp(`${a} = ${a}`, 'g'), () => {
       i += 1;
@@ -53,21 +52,13 @@ export default ({
     editorRef.current.editor.executeEdits('formatter', [
       {
         range: selection && formatSelection ? selection : model.getFullModelRange(),
-        text: originStr,
+        text: originStr.split('\n').map(d => {
+          return d.replace(/^(  )/g, Array(model?.getOptions()?.tabSize || 4).fill(' ').join(''));
+        }).join('\n'),
       },
     ]);
     editorRef.current.editor.setScrollLeft(0);
     editorRef.current.editor.setScrollTop(0);
-  }
-  const handleTable = (editor: RC_EDITOR) => {
-    const tableMap: Record<string, string[]> = {};
-    const txt = editor?.getValue();
-    txt.replace(/(from|FROM)[ \n ]+([0-9a-zA-Z_".`]+)[ \n ]+/g, (s, s1, s2) => {
-      const table = s2.replace(/`"/g, '');
-      tableMap[table] = table.split('.');
-      return s;
-    })
-    tableRef.current = Object.values(tableMap);
   }
   const handleInit = async (editor: RC_EDITOR) => {
     if (onInit) {
@@ -83,28 +74,27 @@ export default ({
         runRef.current?.update();
       })
     }
-    editor.onDidChangeModelContent(() => handleTable(editor));
-    handleTable(editor); // 初始化执行一次
     const monaco: RC_EDITOR_TOOL = (window as any).monaco;
     if (languageRef.current) {
       languageRef.current.dispose();
     }
     if (completion) {
       languageRef.current = monaco.languages.registerCompletionItemProvider('mysql', {
-        triggerCharacters: ['.'],
+        triggerCharacters: ['.', '$', '${'],
         provideCompletionItems: async (model: any, position: any) => {
           if (model.id !== editor.getModel()?.id) {
             return;
           }
           const { lineNumber, column } = position
           const arr = model.getValueInRange({
-            startLineNumber: lineNumber,
+            startLineNumber: 0,
             startColumn: 0,
             endLineNumber: lineNumber,
             endColumn: column
-          })?.split(' ') || [];
-          const str = arr[arr.length - 1] || '';
-          const list = await onCompletion(str, tableRef.current, keywordList);
+          })?.split(/[ \n]+/) || [];
+          const str = arr.pop() || '';
+          const prefixStr = arr.pop() || '';
+          const list = await onCompletion(str, prefixStr, keywordList);
           return { suggestions: list, incomplete: true, dispose: true } as any;
         },
         resolveCompletionItem: (item: any) => {

@@ -2,7 +2,8 @@ import React, { useRef, useEffect } from "react";
 import { RC_EDITOR } from '@tant/rc-editor';
 import { SHELL_EDITOR } from "./props";
 import { TANT_EDITOR_REF } from "xm-tabs/editor/props";
-import prettier from 'prettier';
+const shfmt = require('mvdan-sh');
+
 
 export default ({
   onInit, onEditorChange = () => {},
@@ -23,7 +24,7 @@ export default ({
     editorRef.current.editor.executeEdits('formatter', [
       {
         range: selection && formatSelection ? selection : model.getFullModelRange(),
-        text: prettier.format(str, { parser: 'babel' }),
+        text: shfmt.format(str),
       },
     ]);
     editorRef.current.editor.setScrollLeft(0);
