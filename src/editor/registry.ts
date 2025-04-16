@@ -46,7 +46,7 @@ export default async (
 
 
         sqlLanguage.tokenizer.root.unshift([/(\$\{)(.*?)(\:*?)(.*?)(\})/, ['tant-variable-bracket', 'tant-variable', 'tant-variable-bracket', 'tant-variable', 'tant-variable-bracket']]);
-        sqlLanguage.tokenizer.root.unshift([/(["'`]+)([^"'`]*?)(\$\{)(.*?)(\:*?)(.*?)(\})(^"'`]*?)(["'`]+)/, ['string', 'string', 'tant-variable-bracket', 'tant-variable', 'tant-variable-bracket', 'tant-variable', 'tant-variable-bracket', 'string', 'string']]);
+        sqlLanguage.tokenizer.root.unshift([/(["'`]+)([^"'`]*?)(\$\{)(.*?)(\:*?)(.*?)(\})([^"'`]*?)(["'`]+)/, ['string', 'string', 'tant-variable-bracket', 'tant-variable', 'tant-variable-bracket', 'tant-variable', 'tant-variable-bracket', 'string', 'string']]);
  
         tool.languages.setMonarchTokensProvider('mysql', sqlLanguage);
 
