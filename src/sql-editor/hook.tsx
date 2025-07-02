@@ -1,4 +1,4 @@
-import React, {useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { RC_EDITOR, RC_EDITOR_TOOL } from '@tant/rc-editor';
 import { SQL_EDITOR } from "./props";
 import { TANT_EDITOR_REF } from "xm-tabs/editor/props";
@@ -13,7 +13,7 @@ const keywordList = [
 ];
 
 export default ({
-  onInit, runWidget, onCompletion = () => [], completion, onEditorChange = () => {},
+  onInit, runWidget, onCompletion = () => [], completion, onEditorChange = () => { },
 }: SQL_EDITOR) => {
   const editorRef = useRef<TANT_EDITOR_REF>({} as TANT_EDITOR_REF);
   const runRef = useRef<RunWidget>(null);

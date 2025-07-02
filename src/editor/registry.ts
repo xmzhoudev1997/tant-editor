@@ -6,7 +6,7 @@ import { language as sqlLanguage } from 'monaco-editor/esm/vs/basic-languages/my
 export default async (
     locale: string,
     url: string,
-    callback: (tool: RC_EDITOR_TOOL) => void = () => { },
+    callback: (tool: RC_EDITOR_TOOL, lightTheme: any, darkTheme: any) => void = () => { },
 ) => {
     await registerEditor(locale as any, url, async (tool) => {
         ThemeVitesseLight.colors["editor.background"] = '#F9F9FB';
@@ -41,15 +41,15 @@ export default async (
             foreground: '#C0A9FF',
         });
 
+        await callback(tool, ThemeVitesseLight, ThemeVitesseDark);
+
         tool.editor.defineTheme('tant-light', ThemeVitesseLight as any);
         tool.editor.defineTheme('tant-dark', ThemeVitesseDark as any);
-
 
         sqlLanguage.tokenizer.root.unshift([/(\$\{)(.*?)(\:*?)(.*?)(\})/, ['tant-variable-bracket', 'tant-variable', 'tant-variable-bracket', 'tant-variable', 'tant-variable-bracket']]);
         sqlLanguage.tokenizer.root.unshift([/(["'`]+)([^"'`]*?)(\$\{)(.*?)(\:*?)(.*?)(\})([^"'`]*?)(["'`]+)/, ['string', 'string', 'tant-variable-bracket', 'tant-variable', 'tant-variable-bracket', 'tant-variable', 'tant-variable-bracket', 'string', 'string']]);
  
         tool.languages.setMonarchTokensProvider('mysql', sqlLanguage);
 
-        await callback(tool);
     })
 }
