@@ -9,4 +9,11 @@ export default defineConfig({
   hash: true,
   history: {type: 'hash',},
   styles: ['https://td-fe.github.io/figma-tokens/variables.css'],
+  chainWebpack: (memo) => {
+    memo.experiments({
+      asyncWebAssembly: true,
+    });
+    return memo;
+  },
+  mfsu: false,
 });

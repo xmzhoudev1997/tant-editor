@@ -1,6 +1,6 @@
 {
   "name": "@tant/editor",
-  "version": "0.2.18",
+  "version": "0.3.0",
   "description": "一个基于React的标签页管理工具",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -79,12 +79,15 @@
     "tant-intl": "^0.3.6"
   },
   "dependencies": {
+    "@babel/runtime": "^8.0.5",
     "@tant/icons": "^1.6.0",
     "@tant/rc-contextmenu": "^0.1.7",
     "@tant/rc-editor": "^0.2.10",
     "@tant/ui-next": "^2.60.16",
+    "@wasm-fmt/ruff_fmt": "^0.15.20",
     "ahooks": "^3.7.10",
     "classnames": "^2.5.1",
+    "http-parser": "^1.0.3",
     "keycode": "^2.2.1",
     "lodash": "^4.17.21",
     "lossless-json": "^4.0.1",
